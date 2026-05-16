@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sensitii — Wireless temperature monitoring for restaurants</title>
+<meta name="description" content="Stop logging fridge temps by hand. Sensitii sends SMS alerts the moment your walk-in fails, and auto-generates HACCP logs your inspector will love." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Sensitii — Wireless temperature monitoring for restaurants" />
+<meta property="og:description" content="SMS alerts before food spoils. Auto-generated HACCP logs. No more clipboards." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://sensitii.com" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #f4f4f1;
+    --bg-alt: #ebebe7;
+    --ink: #0e0e0e;
+    --ink-soft: #2a2a28;
+    --ink-mute: #6b6b66;
+    --line: #d4d4cf;
+    --green: #00c853;
+    --green-deep: #009638;
+    --green-tint: #ddf5e3;
+    --red: #e53935;
+    --amber: #f9a825;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grain texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 2; }
+
+  /* ─── NAV ─── */
+  nav {
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(244, 244, 241, 0.85);
+    backdrop-filter: blur(14px);
+    z-index: 50;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; }
+
+  .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .logo-mark {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 22px;
+  }
+  .logo-mark span {
+    display: block;
+    width: 4px;
+    background: var(--green);
+    border-radius: 1px;
+  }
+  .logo-mark span:nth-child(1) { height: 9px; }
+  .logo-mark span:nth-child(2) { height: 13px; }
+  .logo-mark span:nth-child(3) { height: 17px; }
+  .logo-mark span:nth-child(4) { height: 22px; }
+
+  .nav-cta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 10px 18px;
+    border: 1px solid var(--ink);
+    border-radius: 100px;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--ink); color: var(--bg); }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 80px 0 100px;
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-mute);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.6);
+    animation: livepulse 2s infinite;
+  }
+  @keyframes livepulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 200, 83, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); }
+  }
+
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(48px, 7vw, 84px);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    margin-bottom: 28px;
+  }
+  h1 .accent { color: var(--green-deep); }
+  h1 .strike {
+    position: relative;
+    display: inline-block;
+  }
+  h1 .strike::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -4px;
+    right: -4px;
+    height: 6px;
+    background: var(--ink);
+    transform: rotate(-2deg) scaleX(0);
+    transform-origin: left;
+    animation: strike 1.2s 0.8s cubic-bezier(.65,.05,.36,1) forwards;
+  }
+  @keyframes strike {
+    to { transform: rotate(-2deg) scaleX(1); }
+  }
+
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+    max-width: 520px;
+  }
+  .hero-sub strong { color: var(--ink); font-weight: 500; }
+
+  .cta-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 16px 28px;
+    border-radius: 100px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    border: 1px solid var(--ink);
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--green); border-color: var(--green); color: var(--ink); }
+  .btn-primary .arrow { transition: transform 0.2s; }
+  .btn-primary:hover .arrow { transform: translateX(4px); }
+
+  .btn-secondary {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 16px 24px;
+    border-radius: 100px;
+    border: 1px solid var(--line);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--ink); }
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    flex-wrap: wrap;
+  }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero-meta .dot { color: var(--green-deep); font-weight: 700; }
+
+  /* ─── HERO PHONE MOCK ─── */
+  .phone-mock {
+    position: relative;
+    perspective: 1000px;
+  }
+  .phone {
+    background: #1a1a1a;
+    border-radius: 36px;
+    padding: 12px;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.25),
+      0 8px 24px rgba(0,0,0,0.12);
+    max-width: 320px;
+    margin-left: auto;
+    transform: rotate(2deg);
+    transition: transform 0.6s ease;
+  }
+  .phone:hover { transform: rotate(0deg); }
+  .phone-screen {
+    background: #ededeb;
+    border-radius: 26px;
+    padding: 24px 18px 30px;
+    min-height: 480px;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone-notch {
+    width: 80px;
+    height: 24px;
+    background: #1a1a1a;
+    border-radius: 0 0 14px 14px;
+    margin: -12px auto 16px;
+  }
+  .phone-time {
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .sms-bubble {
+    background: white;
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: smsAppear 0.6s forwards;
+  }
+  .sms-bubble:nth-child(1) { animation-delay: 1.4s; }
+  .sms-bubble:nth-child(2) { animation-delay: 2.2s; }
+  .sms-bubble:nth-child(3) { animation-delay: 3.0s; }
+
+  @keyframes smsAppear {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .sms-from {
+    font-size: 10px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .sms-from .badge {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    margin-right: 4px;
+  }
+  .sms-body {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .sms-body .temp {
+    background: var(--red);
+    color: white;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 12px;
+    display: inline-block;
+  }
+  .sms-body .temp.amber { background: var(--amber); color: var(--ink); }
+  .sms-time {
+    font-size: 10px;
+    color: var(--ink-mute);
+    margin-top: 6px;
+  }
+
+  /* ─── SECTION ─── */
+  section { padding: 100px 0; position: relative; }
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+    margin-bottom: 20px;
+  }
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+  h2 .accent { color: var(--green-deep); }
+
+  /* ─── PROBLEM SECTION ─── */
+  .problem {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 120px 0;
+  }
+  .problem h2 { color: var(--bg); }
+  .problem .section-eyebrow { color: rgba(244,244,241,0.5); }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 60px;
+  }
+  .problem-lead {
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--bg);
+    font-weight: 300;
+  }
+  .problem-lead em {
+    font-style: normal;
+    color: var(--green);
+    font-weight: 500;
+  }
+  .problem-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .stat-row {
+    border-top: 1px solid rgba(244,244,241,0.15);
+    padding-top: 24px;
+  }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 14px;
+    color: rgba(244,244,241,0.7);
+    line-height: 1.4;
+  }
+
+  /* ─── WHAT WE MONITOR ─── */
+  .monitor { background: var(--bg); }
+  .monitor-header { display: flex; justify-content: space-between; align-items: end; margin-bottom: 60px; flex-wrap: wrap; gap: 20px; }
+  .monitor-intro { max-width: 460px; color: var(--ink-soft); font-size: 17px; }
+
+  .monitor-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+
+  .mon-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .mon-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .mon-card .icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mon-card .icon svg { width: 100%; height: 100%; }
+  .mon-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+  .mon-card p {
+    font-size: 14px;
+    color: var(--ink-mute);
+    line-height: 1.5;
+  }
+
+  /* The featured cold storage card */
+  .mon-card.featured {
+    grid-column: span 6;
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+    padding: 40px;
+    min-height: 280px;
+  }
+  .mon-card.featured h3 {
+    color: var(--bg);
+    font-size: 38px;
+    margin-bottom: 14px;
+  }
+  .mon-card.featured p { color: rgba(244,244,241,0.7); font-size: 16px; }
+  .mon-card.featured .featured-tag {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: var(--green);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 6px 10px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .mon-card.featured .temp-display {
+    margin-top: 24px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .temp-tile {
+    background: rgba(244,244,241,0.06);
+    border: 1px solid rgba(244,244,241,0.12);
+    border-radius: 10px;
+    padding: 12px 16px;
+    flex: 1;
+    min-width: 130px;
+  }
+  .temp-tile-label {
+    font-size: 11px;
+    color: rgba(244,244,241,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .temp-tile-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--green);
+  }
+  .temp-tile.warn .temp-tile-val { color: var(--amber); }
+
+  /* regular monitoring cards */
+  .mon-card.small { grid-column: span 3; }
+  .mon-card.medium { grid-column: span 6; }
+
+  /* Alerts callout band */
+  .alerts-band {
+    grid-column: 1 / -1;
+    background: var(--green-tint);
+    border: 1px solid var(--green);
+    border-radius: 18px;
+    padding: 36px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .alerts-band-text h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .alerts-band-text p { color: var(--ink-soft); font-size: 15px; max-width: 500px; }
+  .alerts-band .channels {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .channel-chip {
+    background: white;
+    border: 1px solid var(--green);
+    color: var(--ink);
+    padding: 10px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* HACCP log callout */
+  .haccp-band {
+    grid-column: 1 / -1;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 36px;
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .haccp-band h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .haccp-band p { color: var(--ink-soft); font-size: 15px; }
+  .log-mock {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--green);
+    line-height: 1.8;
+    overflow: hidden;
+  }
+  .log-mock .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    color: rgba(244,244,241,0.85);
+  }
+  .log-mock .row.header {
+    color: rgba(244,244,241,0.4);
+    border-bottom: 1px solid rgba(244,244,241,0.15);
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .log-mock .row .ok { color: var(--green); }
+
+  /* ─── CTA / FORM ─── */
+  .cta-section {
+    background: var(--bg-alt);
+    padding: 120px 0;
+  }
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .cta-left h2 { font-size: clamp(40px, 5.5vw, 64px); margin-bottom: 20px; }
+  .cta-left .lead { font-size: 18px; color: var(--ink-soft); margin-bottom: 32px; max-width: 460px; line-height: 1.5; }
+
+  .cta-bullets { list-style: none; margin-bottom: 36px; }
+  .cta-bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 16px;
+    color: var(--ink-soft);
+  }
+  .cta-bullets li::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='none' stroke='%230e0e0e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M5 12l5 5 9-11'/%3E%3C/svg%3E");
+    background-size: 12px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .calendar-link {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.2s;
+    gap: 16px;
+  }
+  .calendar-link:hover {
+    border-color: var(--ink);
+    transform: translateX(4px);
+  }
+  .calendar-link-text { display: flex; align-items: center; gap: 14px; }
+  .calendar-link-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--green-tint);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .calendar-link-icon svg { width: 22px; height: 22px; }
+  .calendar-link-label { font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 2px; }
+  .calendar-link-main { font-weight: 500; font-size: 15px; }
+  .calendar-arrow {
+    width: 24px;
+    height: 24px;
+    color: var(--ink-mute);
+    transition: all 0.2s;
+  }
+  .calendar-link:hover .calendar-arrow { color: var(--ink); transform: translateX(4px); }
+
+  /* Form */
+  form.demo-form {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid var(--line);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.04);
+  }
+  form .form-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--green-deep);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  form h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background: var(--bg);
+    color: var(--ink);
+    transition: all 0.2s;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--ink);
+    background: white;
+  }
+  .field textarea { min-height: 90px; resize: vertical; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .submit-btn {
+    width: 100%;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .submit-btn:hover { background: var(--green); color: var(--ink); }
+  .submit-btn:disabled { opacity: 0.6; cursor: wait; }
+  .form-success {
+    display: none;
+    padding: 40px;
+    text-align: center;
+  }
+  .form-success.show { display: block; }
+  .form-success-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--green-tint);
+    border-radius: 50%;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .form-success h3 { margin-bottom: 10px; }
+  .form-success p { color: var(--ink-soft); }
+  .form-hint { font-size: 12px; color: var(--ink-mute); margin-top: 14px; text-align: center; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 60px 0 40px;
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  footer .logo { color: var(--bg); }
+  footer .logo .accent-text { color: var(--green); }
+  footer .footer-meta {
+    font-size: 13px;
+    color: rgba(244,244,241,0.5);
+    line-height: 1.6;
+  }
+  footer a { color: rgba(244,244,241,0.7); text-decoration: none; }
+  footer a:hover { color: var(--green); }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+    .phone-mock { max-width: 320px; margin: 0 auto; }
+    .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+    .cta-grid { grid-template-columns: 1fr; gap: 50px; }
+    .mon-card.featured { grid-column: 1 / -1; }
+    .mon-card.small { grid-column: span 6; }
+    .mon-card.medium { grid-column: 1 / -1; }
+    .haccp-band { grid-template-columns: 1fr; }
+    section { padding: 70px 0; }
+    .hero { padding: 50px 0 70px; }
+  }
+  @media (max-width: 560px) {
+    .wrap { padding: 0 20px; }
+    .mon-card.small { grid-column: 1 / -1; }
+    form.demo-form { padding: 28px 22px; }
+    .field-row { grid-template-columns: 1fr; }
+    .nav-cta { display: none; }
+    .alerts-band { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap">
+    <a href="#" class="logo">
+      <span class="logo-mark"><span></span><span></span><span></span><span></span></span>
+      sens<span style="color: var(--green-deep);">itii</span>
+    </a>
+    <a href="#demo" class="nav-cta">Book a demo</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">Live wireless temperature monitoring</div>
+        <h1>
+          Know the moment<br/>
+          your walk-in <span class="accent">fails.</span><br/>
+          <span class="strike">Not the morning after.</span>
+        </h1>
+        <p class="hero-sub">
+          Sensitii puts wireless sensors in your coolers, freezers, and dry storage — and texts you the second a temperature drifts. Plus <strong>auto-generated HACCP logs</strong>, so the clipboard never sees another shift.
+        </p>
+        <div class="cta-row">
+          <a href="#demo" class="btn-primary">
+            Book a free demo
+            <span class="arrow">→</span>
+          </a>
+          <a href="#how" class="btn-secondary">See how it works</a>
+        </div>
+        <div class="hero-meta">
+          <span><span class="dot">●</span> Installs in under an hour</span>
+          <span><span class="dot">●</span> Works on your existing WiFi or LTE</span>
+          <span><span class="dot">●</span> DFW-based service</span>
+        </div>
+      </div>
+
+      <!-- Phone with live SMS animation -->
+      <div class="phone-mock">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-time">Today · 11:42 PM</div>
+
+            <div class="sms-bubble">
+              <div class="sms-from"><span class="badge">SENSITII</span> Walk-in cooler</div>
+              <div class="sms-body">⚠️ Temperature rising: <span class="temp amber">41.8°F</span> — above 40°F threshold for 4 minutes.</div>
+              <div class="sms-time">11:42 PM</div>
+            </div>
+
+            <div class="sms-bubble">
+              <div class="sms-from"><span class="badge">SENSITII</span> Walk-in cooler</div>
+              <div class="sms-body">🚨 Critical: now <span class="temp">46.2°F</span>. Check door and compressor.</div>
+              <div class="sms-time">11:48 PM</div>
+            </div>
+
+            <div class="sms-bubble">
+              <div class="sms-from"><span class="badge">SENSITII</span> Walk-in cooler</div>
+              <div class="sms-body">✅ Back in range: <span style="color: var(--green-deep); font-weight: 500;">37.9°F</span>. Crisis avoided.</div>
+              <div class="sms-time">12:14 AM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROBLEM ─── -->
+<section class="problem" id="how">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">The 4 a.m. problem</div>
+    <h2 class="reveal">
+      Every restaurant loses inventory <span class="accent">this way.</span>
+    </h2>
+    <div class="problem-grid">
+      <div class="problem-lead reveal">
+        The compressor fails sometime overnight. The walk-in creeps up to 50°F. By the time the morning crew opens the door, the dairy is gone, the protein's questionable, and you're already 3 hours into a service call you didn't budget for.
+        <br/><br/>
+        <em>Sensitii would have texted you at 11:42 PM.</em>
+      </div>
+      <div class="problem-stats">
+        <div class="stat-row reveal">
+          <div class="stat-num">$3,400</div>
+          <div class="stat-label">Average value of inventory lost in a single overnight cooler failure</div>
+        </div>
+        <div class="stat-row reveal">
+          <div class="stat-num">73%</div>
+          <div class="stat-label">Of foodborne illness violations cited by health inspectors involve temperature control</div>
+        </div>
+        <div class="stat-row reveal">
+          <div class="stat-num">~6 min</div>
+          <div class="stat-label">From sensor reading to SMS in your hand — fast enough to save the load</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHAT WE MONITOR ─── -->
+<section class="monitor">
+  <div class="wrap">
+    <div class="monitor-header reveal">
+      <div>
+        <div class="section-eyebrow">What we monitor</div>
+        <h2>Everything that <span class="accent">spoils, leaks, or fails.</span></h2>
+      </div>
+      <div class="monitor-intro">
+        Wireless sensors throughout your kitchen, monitored 24/7. Cold storage is what restaurants buy us for — the rest is what makes us hard to replace.
+      </div>
+    </div>
+
+    <div class="monitor-grid">
+
+      <!-- FEATURED: Walk-ins & freezers -->
+      <div class="mon-card featured reveal">
+        <span class="featured-tag">Why restaurants buy us</span>
+        <div class="icon" style="filter: invert(1) brightness(2);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="3" width="16" height="18" rx="1"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="9" y1="7" x2="9" y2="9"/>
+            <line x1="9" y1="15" x2="9" y2="17"/>
+          </svg>
+        </div>
+        <h3>Walk-in coolers & freezers</h3>
+        <p>The expensive failure mode. Continuous temperature logging in every cold storage unit, with thresholds you set and SMS alerts the moment a unit drifts. Catch failures while inventory can still be saved.</p>
+        <div class="temp-display">
+          <div class="temp-tile">
+            <div class="temp-tile-label">Walk-in cooler</div>
+            <div class="temp-tile-val">36.4°F</div>
+          </div>
+          <div class="temp-tile">
+            <div class="temp-tile-label">Walk-in freezer</div>
+            <div class="temp-tile-val">-2.1°F</div>
+          </div>
+          <div class="temp-tile warn">
+            <div class="temp-tile-label">Reach-in #2</div>
+            <div class="temp-tile-val">39.7°F</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smaller cards -->
+      <div class="mon-card small reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v6m0 0a4 4 0 014 4v8a2 2 0 01-2 2h-4a2 2 0 01-2-2v-8a4 4 0 014-4z"/>
+            <circle cx="12" cy="16" r="2" fill="#00c853" stroke="none"/>
+          </svg>
+        </div>
+        <h3>Dry storage</h3>
+        <p>Temperature and humidity in pantries, stockrooms, and rice/flour storage.</p>
+      </div>
+
+      <div class="mon-card small reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.5C12 2.5 5 10 5 15a7 7 0 0014 0c0-5-7-12.5-7-12.5z" fill="#00c853" stroke="#00c853"/>
+          </svg>
+        </div>
+        <h3>Humidity</h3>
+        <p>Stop mold and product loss in baking, prep, and produce areas.</p>
+      </div>
+
+      <div class="mon-card small reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 13c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+            <path d="M3 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+            <path d="M3 9c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+          </svg>
+        </div>
+        <h3>Leak detection</h3>
+        <p>Catch dish-pit and ice-machine leaks before they hit the substructure.</p>
+      </div>
+
+      <div class="mon-card small reveal">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0e0e0e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="6" width="16" height="14" rx="1"/>
+            <path d="M8 6V4a4 4 0 018 0v2" />
+            <circle cx="12" cy="13" r="1.5" fill="#00c853" stroke="none"/>
+          </svg>
+        </div>
+        <h3>Door open / close</h3>
+        <p>Walk-in left open after delivery? You'll know in seconds.</p>
+      </div>
+
+      <!-- ALERTS BAND -->
+      <div class="alerts-band reveal">
+        <div class="alerts-band-text">
+          <h3>Alerts that actually reach the right person.</h3>
+          <p>Threshold breached for more than your chosen grace window? SMS, email, or both — routed to the on-shift manager, the owner, or whoever you decide. No app to check.</p>
+        </div>
+        <div class="channels">
+          <span class="channel-chip">📱 SMS</span>
+          <span class="channel-chip">✉️ Email</span>
+          <span class="channel-chip">⏰ Escalation rules</span>
+        </div>
+      </div>
+
+      <!-- HACCP LOG BAND -->
+      <div class="haccp-band reveal">
+        <div>
+          <h3>HACCP logs auto-generated. Inspector-ready.</h3>
+          <p>Every reading is timestamped, stored, and exported as a PDF temperature log on demand. Stop printing blank forms. Stop trusting that someone wrote it down at 8 a.m. when they didn't.</p>
+        </div>
+        <div class="log-mock">
+          <div class="row header">
+            <span>TIME</span><span>WALK-IN</span><span>STATUS</span>
+          </div>
+          <div class="row"><span>06:00</span><span>36.2°F</span><span class="ok">✓ OK</span></div>
+          <div class="row"><span>09:00</span><span>37.1°F</span><span class="ok">✓ OK</span></div>
+          <div class="row"><span>12:00</span><span>36.8°F</span><span class="ok">✓ OK</span></div>
+          <div class="row"><span>15:00</span><span>37.4°F</span><span class="ok">✓ OK</span></div>
+          <div class="row"><span>18:00</span><span>36.5°F</span><span class="ok">✓ OK</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA / FORM ─── -->
+<section class="cta-section" id="demo">
+  <div class="wrap">
+    <div class="cta-grid">
+      <div class="cta-left reveal">
+        <div class="section-eyebrow">Free demo</div>
+        <h2>See it in your <span class="accent">own kitchen.</span></h2>
+        <p class="lead">A 30-minute on-site walkthrough. We bring a sensor, show you live alerts on your phone, and explain exactly what installation in your space would look like. No pressure.</p>
+        <ul class="cta-bullets">
+          <li>30 minutes, on-site at your restaurant</li>
+          <li>Live demo on your walk-in or freezer</li>
+          <li>Written quote before we leave</li>
+          <li>No obligation — and no sales script</li>
+        </ul>
+
+        <a href="https://calendar.app.google/goWcEZHa9XjShifB6" target="_blank" rel="noopener" class="calendar-link">
+          <div class="calendar-link-text">
+            <div class="calendar-link-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0e0e0e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="16" rx="2"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <line x1="8" y1="3" x2="8" y2="7"/>
+                <line x1="16" y1="3" x2="16" y2="7"/>
+              </svg>
+            </div>
+            <div>
+              <div class="calendar-link-label">Prefer to self-schedule?</div>
+              <div class="calendar-link-main">Pick a time on our calendar</div>
+            </div>
+          </div>
+          <svg class="calendar-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- FORM -->
+      <form class="demo-form reveal" id="demoForm" action="https://api.web3forms.com/submit" method="POST">
+
+        <!-- Web3Forms config -->
+        <input type="hidden" name="access_key" value="1d7cc009-3f5a-42c8-84df-b3af38e19b29" />
+        <input type="hidden" name="subject" value="New Sensitii demo request" />
+        <input type="hidden" name="from_name" value="sensitii.com" />
+        <input type="hidden" name="redirect" value="false" />
+        <input type="checkbox" name="botcheck" style="display:none" />
+
+        <div class="form-content" id="formContent">
+          <div class="form-eyebrow">Request a free demo</div>
+          <h3>We'll be in touch within 24 hours.</h3>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input id="name" type="text" name="name" placeholder="Maria Lopez" required />
+            </div>
+            <div class="field">
+              <label for="role">Your role</label>
+              <input id="role" type="text" name="role" placeholder="Owner / GM" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="restaurant">Restaurant name</label>
+            <input id="restaurant" type="text" name="restaurant" placeholder="El Rancho Grill" required />
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" name="email" placeholder="maria@..." required />
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" type="tel" name="phone" placeholder="(214) 555-0100" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="city">City</label>
+            <input id="city" type="text" name="city" placeholder="Dallas, Plano, Garland..." required />
+          </div>
+
+          <div class="field">
+            <label for="notes">Anything we should know? (optional)</label>
+            <textarea id="notes" name="notes" placeholder="e.g. We have 2 walk-ins and a freezer, our cooler failed last month..."></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            Request my free demo
+            <span style="font-size: 18px;">→</span>
+          </button>
+          <div class="form-hint">We'll reach out within 24 hours, usually faster.</div>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#0e0e0e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12l5 5 9-11"/>
+            </svg>
+          </div>
+          <h3>Got it — talk soon.</h3>
+          <p>We'll reach out within 24 hours to schedule your on-site demo.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="wrap">
+    <div>
+      <a href="#" class="logo">
+        <span class="logo-mark"><span></span><span></span><span></span><span></span></span>
+        sens<span class="accent-text">itii</span>
+      </a>
+      <div class="footer-meta" style="margin-top: 12px;">
+        Wireless temperature monitoring & HACCP compliance<br/>
+        Built in Dallas–Fort Worth · <a href="mailto:hq@sensitii.com">hq@sensitii.com</a>
+      </div>
+    </div>
+    <div class="footer-meta" style="text-align: right;">
+      © 2026 Sensitii<br/>
+      Smart sensing · Zero clipboards · Always compliant
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 8) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('in');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Form submit handler (AJAX so we don't navigate away)
+  const form = document.getElementById('demoForm');
+  const formContent = document.getElementById('formContent');
+  const formSuccess = document.getElementById('formSuccess');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending...';
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (json.success) {
+        formContent.style.display = 'none';
+        formSuccess.classList.add('show');
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Try again';
+        alert('Something went wrong. Please email hq@sensitii.com directly.');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Try again';
+      alert('Network error. Please email hq@sensitii.com directly.');
+    }
+  });
+</script>
+
+</body>
+</html>
