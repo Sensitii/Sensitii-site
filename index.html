@@ -74,33 +74,20 @@
   nav .wrap { display: flex; justify-content: space-between; align-items: center; }
 
   .logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 28px;
-    letter-spacing: 0.04em;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: var(--ink);
-  }
-  .logo-mark {
     display: inline-flex;
-    align-items: flex-end;
-    gap: 2px;
-    height: 22px;
+    align-items: center;
+    text-decoration: none;
+    height: 32px;
   }
-  .logo-mark span {
+  .logo img {
+    height: 100%;
+    width: auto;
     display: block;
-    width: 4px;
-    background: var(--green);
-    border-radius: 1px;
   }
-  .logo-mark span:nth-child(1) { height: 9px; }
-  .logo-mark span:nth-child(2) { height: 13px; }
-  .logo-mark span:nth-child(3) { height: 17px; }
-  .logo-mark span:nth-child(4) { height: 22px; }
+  /* Footer logo (on dark background) inverts via filter */
+  footer .logo img {
+    filter: invert(1);
+  }
 
   .nav-cta {
     font-family: 'DM Sans', sans-serif;
@@ -607,6 +594,72 @@
   }
   .log-mock .row .ok { color: var(--green); }
 
+  /* ─── PRODUCT SHOWCASE ─── */
+  .showcase {
+    background: var(--bg);
+    padding: 60px 0 100px;
+  }
+  .showcase-header {
+    max-width: 760px;
+    margin-bottom: 50px;
+  }
+  .showcase-header h2 {
+    margin-bottom: 18px;
+  }
+  .showcase-intro {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    max-width: 680px;
+  }
+  .showcase-frame {
+    background: var(--ink);
+    border-radius: 22px;
+    padding: 14px;
+    box-shadow:
+      0 30px 80px rgba(14, 14, 14, 0.18),
+      0 8px 24px rgba(14, 14, 14, 0.08);
+    overflow: hidden;
+  }
+  .dashboard-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+  .showcase-caption {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 28px;
+    padding: 6px 10px 14px;
+  }
+  .caption-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .caption-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    background: rgba(0, 200, 83, 0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+  .caption-text {
+    color: rgba(244, 244, 241, 0.85);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  @media (max-width: 900px) {
+    .showcase-caption { grid-template-columns: 1fr; gap: 16px; }
+    .showcase { padding: 40px 0 70px; }
+  }
+
   /* ─── CTA / FORM ─── */
   .cta-section {
     background: var(--bg-alt);
@@ -839,8 +892,7 @@
 <nav id="nav">
   <div class="wrap">
     <a href="#" class="logo">
-      <span class="logo-mark"><span></span><span></span><span></span><span></span></span>
-      sens<span style="color: var(--green-deep);">itii</span>
+      <img src="sensitii-logo.png" alt="Sensitii" />
     </a>
     <a href="#demo" class="nav-cta">Book a demo</a>
   </div>
@@ -1061,6 +1113,256 @@
   </div>
 </section>
 
+<!-- ─── PRODUCT SHOWCASE ─── -->
+<section class="showcase">
+  <div class="wrap">
+    <div class="showcase-header reveal">
+      <div class="section-eyebrow">Your dashboard</div>
+      <h2>One screen. <span class="accent">Every cooler.</span> Every shift.</h2>
+      <p class="showcase-intro">Open it on your phone in the morning to confirm overnight was clean. Pull it up for the inspector. Forward a snapshot to your insurer after an incident. The point isn't to stare at it — it's to know everything is fine without having to ask anyone.</p>
+    </div>
+
+    <!-- Dashboard SVG mockup -->
+    <div class="showcase-frame reveal">
+      <svg class="dashboard-svg" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Sensitii dashboard preview">
+        <!-- Background -->
+        <rect width="1200" height="720" fill="#0a0e17"/>
+
+        <!-- Top nav bar -->
+        <rect x="0" y="0" width="1200" height="56" fill="#0d1220"/>
+        <rect x="0" y="55" width="1200" height="1" fill="#1e2d4a"/>
+        <!-- Logo mark in nav -->
+        <g transform="translate(28, 18)">
+          <rect x="0" y="14" width="4" height="6" fill="#00c853" rx="1"/>
+          <rect x="6" y="10" width="4" height="10" fill="#00c853" rx="1"/>
+          <rect x="12" y="6" width="4" height="14" fill="#00c853" rx="1"/>
+          <rect x="18" y="0" width="4" height="20" fill="#00c853" rx="1"/>
+          <text x="32" y="17" fill="#e8edf5" font-family="Barlow Condensed, sans-serif" font-size="18" font-weight="700" letter-spacing="0.04em">sens<tspan fill="#00c853">itii</tspan></text>
+        </g>
+        <!-- Nav tabs -->
+        <g font-family="DM Sans, sans-serif" font-size="13">
+          <rect x="380" y="16" width="92" height="26" rx="6" fill="#1a2540"/>
+          <text x="426" y="33" fill="#00e5ff" text-anchor="middle" font-weight="500">Overview</text>
+          <text x="510" y="33" fill="#8899b4" text-anchor="middle" font-weight="500">History</text>
+          <text x="600" y="33" fill="#8899b4" text-anchor="middle" font-weight="500">HACCP Logs</text>
+          <text x="700" y="33" fill="#8899b4" text-anchor="middle" font-weight="500">Alerts</text>
+          <text x="780" y="33" fill="#8899b4" text-anchor="middle" font-weight="500">Settings</text>
+        </g>
+        <!-- Right side: live indicator + restaurant name -->
+        <g transform="translate(950, 18)">
+          <circle cx="6" cy="14" r="5" fill="#00e676">
+            <animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <text x="18" y="18" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="12">Live · Last update 14s ago</text>
+        </g>
+
+        <!-- Page title -->
+        <text x="32" y="100" fill="#e8edf5" font-family="Barlow Condensed, sans-serif" font-size="28" font-weight="700">El Rancho Grill — Garland, TX</text>
+        <text x="32" y="124" fill="#6b7a99" font-family="DM Sans, sans-serif" font-size="13">5 sensors · All operational · 99.8% uptime this month</text>
+
+        <!-- Stat tiles row -->
+        <g transform="translate(32, 152)">
+          <!-- Tile 1: Walk-in cooler -->
+          <g>
+            <rect width="270" height="120" rx="14" fill="#151d2e" stroke="#1e2d4a"/>
+            <rect x="0" y="0" width="4" height="120" fill="#00e676" rx="2"/>
+            <text x="22" y="30" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="11" letter-spacing="0.12em">WALK-IN COOLER</text>
+            <text x="22" y="72" fill="#00e676" font-family="JetBrains Mono, monospace" font-size="38" font-weight="700">36.4°F</text>
+            <text x="22" y="98" fill="#6b7a99" font-family="DM Sans, sans-serif" font-size="11">Target: ≤ 40°F</text>
+            <text x="248" y="98" fill="#00e676" font-family="DM Sans, sans-serif" font-size="11" text-anchor="end">✓ OK</text>
+          </g>
+
+          <!-- Tile 2: Walk-in freezer -->
+          <g transform="translate(286, 0)">
+            <rect width="270" height="120" rx="14" fill="#151d2e" stroke="#1e2d4a"/>
+            <rect x="0" y="0" width="4" height="120" fill="#00e676" rx="2"/>
+            <text x="22" y="30" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="11" letter-spacing="0.12em">WALK-IN FREEZER</text>
+            <text x="22" y="72" fill="#00e676" font-family="JetBrains Mono, monospace" font-size="38" font-weight="700">-2.1°F</text>
+            <text x="22" y="98" fill="#6b7a99" font-family="DM Sans, sans-serif" font-size="11">Target: ≤ 0°F</text>
+            <text x="248" y="98" fill="#00e676" font-family="DM Sans, sans-serif" font-size="11" text-anchor="end">✓ OK</text>
+          </g>
+
+          <!-- Tile 3: Reach-in (warning) -->
+          <g transform="translate(572, 0)">
+            <rect width="270" height="120" rx="14" fill="#151d2e" stroke="#1e2d4a"/>
+            <rect x="0" y="0" width="4" height="120" fill="#f9a825" rx="2"/>
+            <text x="22" y="30" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="11" letter-spacing="0.12em">REACH-IN #2</text>
+            <text x="22" y="72" fill="#f9a825" font-family="JetBrains Mono, monospace" font-size="38" font-weight="700">39.7°F</text>
+            <text x="22" y="98" fill="#6b7a99" font-family="DM Sans, sans-serif" font-size="11">Approaching limit</text>
+            <text x="248" y="98" fill="#f9a825" font-family="DM Sans, sans-serif" font-size="11" text-anchor="end">⚠ Watch</text>
+          </g>
+
+          <!-- Tile 4: Dry storage -->
+          <g transform="translate(858, 0)">
+            <rect width="270" height="120" rx="14" fill="#151d2e" stroke="#1e2d4a"/>
+            <rect x="0" y="0" width="4" height="120" fill="#00e676" rx="2"/>
+            <text x="22" y="30" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="11" letter-spacing="0.12em">DRY STORAGE</text>
+            <text x="22" y="72" fill="#00e676" font-family="JetBrains Mono, monospace" font-size="38" font-weight="700">68.2°F</text>
+            <text x="22" y="98" fill="#6b7a99" font-family="DM Sans, sans-serif" font-size="11">Humidity: 42%</text>
+            <text x="248" y="98" fill="#00e676" font-family="DM Sans, sans-serif" font-size="11" text-anchor="end">✓ OK</text>
+          </g>
+        </g>
+
+        <!-- Chart card (large, left) -->
+        <g transform="translate(32, 296)">
+          <rect width="744" height="296" rx="14" fill="#151d2e" stroke="#1e2d4a"/>
+          <!-- Header -->
+          <text x="24" y="34" fill="#e8edf5" font-family="DM Sans, sans-serif" font-size="14" font-weight="600">Walk-in cooler — Last 24 hours</text>
+          <!-- Live badge -->
+          <g transform="translate(640, 18)">
+            <rect width="80" height="22" rx="11" fill="rgba(0,230,118,0.12)"/>
+            <circle cx="14" cy="11" r="3" fill="#00e676"/>
+            <text x="24" y="15" fill="#00e676" font-family="DM Sans, sans-serif" font-size="11" font-weight="600">LIVE</text>
+          </g>
+
+          <!-- Y axis labels -->
+          <g fill="#6b7a99" font-family="JetBrains Mono, monospace" font-size="10">
+            <text x="22" y="80">42°</text>
+            <text x="22" y="130">40°</text>
+            <text x="22" y="180">38°</text>
+            <text x="22" y="230">36°</text>
+            <text x="22" y="280">34°</text>
+          </g>
+
+          <!-- Grid lines -->
+          <g stroke="#1e2d4a" stroke-width="1" opacity="0.5">
+            <line x1="60" y1="76" x2="724" y2="76"/>
+            <line x1="60" y1="126" x2="724" y2="126"/>
+            <line x1="60" y1="176" x2="724" y2="176"/>
+            <line x1="60" y1="226" x2="724" y2="226"/>
+            <line x1="60" y1="276" x2="724" y2="276"/>
+          </g>
+
+          <!-- Threshold line (40°F) -->
+          <line x1="60" y1="126" x2="724" y2="126" stroke="#f9a825" stroke-width="1" stroke-dasharray="4,4" opacity="0.6"/>
+          <text x="710" y="120" fill="#f9a825" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="end">THRESHOLD 40°F</text>
+
+          <!-- Area fill -->
+          <path d="M 60,220 L 100,215 L 140,210 L 180,212 L 220,208 L 260,210 L 300,205 L 340,195 L 380,180 L 420,165 L 460,140 L 500,130 L 540,150 L 580,200 L 620,215 L 660,218 L 700,220 L 724,222 L 724,276 L 60,276 Z"
+                fill="url(#chartGradient)" opacity="0.7"/>
+
+          <!-- Line -->
+          <path d="M 60,220 L 100,215 L 140,210 L 180,212 L 220,208 L 260,210 L 300,205 L 340,195 L 380,180 L 420,165 L 460,140 L 500,130 L 540,150 L 580,200 L 620,215 L 660,218 L 700,220 L 724,222"
+                fill="none" stroke="#00e5ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Peak marker (the moment of failure) -->
+          <circle cx="500" cy="130" r="6" fill="#f9a825" stroke="#151d2e" stroke-width="2"/>
+          <g transform="translate(440, 84)">
+            <rect width="120" height="36" rx="6" fill="#0a0e17" stroke="#f9a825"/>
+            <text x="60" y="16" fill="#f9a825" font-family="DM Sans, sans-serif" font-size="10" text-anchor="middle" font-weight="600">11:42 PM</text>
+            <text x="60" y="29" fill="#e8edf5" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">Peak 41.8°F</text>
+          </g>
+
+          <!-- X axis labels -->
+          <g fill="#6b7a99" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="middle">
+            <text x="100" y="295">6 AM</text>
+            <text x="200" y="295">10 AM</text>
+            <text x="300" y="295">2 PM</text>
+            <text x="400" y="295">6 PM</text>
+            <text x="500" y="295">10 PM</text>
+            <text x="600" y="295">2 AM</text>
+            <text x="700" y="295">6 AM</text>
+          </g>
+
+          <defs>
+            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </g>
+
+        <!-- Right side: Recent alerts -->
+        <g transform="translate(796, 296)">
+          <rect width="372" height="296" rx="14" fill="#151d2e" stroke="#1e2d4a"/>
+          <text x="22" y="34" fill="#e8edf5" font-family="DM Sans, sans-serif" font-size="14" font-weight="600">Recent activity</text>
+
+          <!-- Alert 1 -->
+          <g transform="translate(22, 56)">
+            <rect width="328" height="62" rx="10" fill="rgba(249,168,37,0.06)" stroke="rgba(249,168,37,0.25)"/>
+            <text x="14" y="20" fill="#f9a825" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="0.1em">11:42 PM · WARNING</text>
+            <text x="14" y="40" fill="#e8edf5" font-family="DM Sans, sans-serif" font-size="12" font-weight="500">Walk-in cooler 41.8°F</text>
+            <text x="14" y="55" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="11">SMS sent to manager</text>
+          </g>
+
+          <!-- Alert 2 -->
+          <g transform="translate(22, 130)">
+            <rect width="328" height="62" rx="10" fill="rgba(0,230,118,0.06)" stroke="rgba(0,230,118,0.2)"/>
+            <text x="14" y="20" fill="#00e676" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="0.1em">12:14 AM · RESOLVED</text>
+            <text x="14" y="40" fill="#e8edf5" font-family="DM Sans, sans-serif" font-size="12" font-weight="500">Cooler back in range</text>
+            <text x="14" y="55" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="11">Down to 37.9°F · 32 min cycle</text>
+          </g>
+
+          <!-- Alert 3 -->
+          <g transform="translate(22, 204)">
+            <rect width="328" height="62" rx="10" fill="rgba(0,229,255,0.04)" stroke="rgba(30,45,74,0.6)"/>
+            <text x="14" y="20" fill="#6b7a99" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="0.1em">06:00 AM · LOG</text>
+            <text x="14" y="40" fill="#e8edf5" font-family="DM Sans, sans-serif" font-size="12" font-weight="500">Daily HACCP entry recorded</text>
+            <text x="14" y="55" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="11">All 5 sensors logged</text>
+          </g>
+        </g>
+
+        <!-- Bottom: HACCP log preview -->
+        <g transform="translate(32, 616)">
+          <rect width="1136" height="80" rx="14" fill="#151d2e" stroke="#1e2d4a"/>
+          <text x="22" y="28" fill="#e8edf5" font-family="DM Sans, sans-serif" font-size="13" font-weight="600">Today's HACCP log</text>
+          <text x="22" y="46" fill="#8899b4" font-family="DM Sans, sans-serif" font-size="11">Auto-generated · ready for inspector</text>
+
+          <!-- Time entries -->
+          <g font-family="JetBrains Mono, monospace" font-size="11" fill="#e8edf5">
+            <g transform="translate(380, 30)">
+              <text fill="#6b7a99" font-size="9" letter-spacing="0.1em">06:00</text>
+              <text y="18" fill="#00e676">36.2°F ✓</text>
+            </g>
+            <g transform="translate(480, 30)">
+              <text fill="#6b7a99" font-size="9" letter-spacing="0.1em">09:00</text>
+              <text y="18" fill="#00e676">37.1°F ✓</text>
+            </g>
+            <g transform="translate(580, 30)">
+              <text fill="#6b7a99" font-size="9" letter-spacing="0.1em">12:00</text>
+              <text y="18" fill="#00e676">36.8°F ✓</text>
+            </g>
+            <g transform="translate(680, 30)">
+              <text fill="#6b7a99" font-size="9" letter-spacing="0.1em">15:00</text>
+              <text y="18" fill="#00e676">37.4°F ✓</text>
+            </g>
+            <g transform="translate(780, 30)">
+              <text fill="#6b7a99" font-size="9" letter-spacing="0.1em">18:00</text>
+              <text y="18" fill="#00e676">36.5°F ✓</text>
+            </g>
+            <g transform="translate(880, 30)">
+              <text fill="#6b7a99" font-size="9" letter-spacing="0.1em">21:00</text>
+              <text y="18" fill="#00e676">36.9°F ✓</text>
+            </g>
+          </g>
+
+          <!-- Export button -->
+          <g transform="translate(1000, 22)">
+            <rect width="116" height="36" rx="8" fill="#00c853"/>
+            <text x="58" y="23" fill="#0e0e0e" font-family="DM Sans, sans-serif" font-size="12" font-weight="600" text-anchor="middle">Download PDF</text>
+          </g>
+        </g>
+      </svg>
+
+      <!-- Caption row under dashboard -->
+      <div class="showcase-caption">
+        <div class="caption-item">
+          <span class="caption-num">01</span>
+          <span class="caption-text">Live readings from every sensor, updated every minute</span>
+        </div>
+        <div class="caption-item">
+          <span class="caption-num">02</span>
+          <span class="caption-text">Spot a problem the moment it starts — before food spoils</span>
+        </div>
+        <div class="caption-item">
+          <span class="caption-num">03</span>
+          <span class="caption-text">PDF HACCP logs ready to hand the inspector</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ─── CTA / FORM ─── -->
 <section class="cta-section" id="demo">
   <div class="wrap">
@@ -1102,7 +1404,7 @@
       <form class="demo-form reveal" id="demoForm" action="https://api.web3forms.com/submit" method="POST">
 
         <!-- Web3Forms config -->
-        <input type="hidden" name="access_key" value="1d7cc009-3f5a-42c8-84df-b3af38e19b29" />
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY_HERE" />
         <input type="hidden" name="subject" value="New Sensitii demo request" />
         <input type="hidden" name="from_name" value="sensitii.com" />
         <input type="hidden" name="redirect" value="false" />
@@ -1175,8 +1477,7 @@
   <div class="wrap">
     <div>
       <a href="#" class="logo">
-        <span class="logo-mark"><span></span><span></span><span></span><span></span></span>
-        sens<span class="accent-text">itii</span>
+        <img src="sensitii-logo.png" alt="Sensitii" />
       </a>
       <div class="footer-meta" style="margin-top: 12px;">
         Wireless temperature monitoring & HACCP compliance<br/>
